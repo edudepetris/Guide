@@ -7,8 +7,8 @@ package rio.cuarto.database;
 public interface IWriteOnGuide {
 
 	/* advertisement */
-	public boolean addAdvertisement(long id, String title, String description, String imagem, String address, String phone, String geoPosition);
-	public boolean updateAdvertisement(long id);
+	public boolean addAdvertisement(long id, String title, String description, String image, String address, String phone, String geoPosition);
+	public boolean updateAdvertisement(long id, String title, String description, String image, String address, String phone, String geoPosition);
 	public boolean deleteAdvertisement(long id);
 	
 	/* category */
