@@ -3,26 +3,45 @@
  */
 package rio.cuarto.database;
 
+import android.database.SQLException;
 
 public interface IWriteOnGuide {
 
 	/* advertisement */
-	public boolean addAdvertisement(long id, String title, String description, String image, String address, String phone, String geoPosition);
-	public boolean updateAdvertisement(long id, String title, String description, String image, String address, String phone, String geoPosition);
-	public boolean deleteAdvertisement(long id);
-	
-	/* category */
-	public boolean addCategory(long id, String name);
-	public boolean updateCategory(long id, String name);
-	public boolean deleteCategory(long id);
+	public void addAdvertisement(long id, String title, String description,
+			String image, String address, String phone, String geoPosition)
+			throws SQLException;
 
-	/* sub category*/
-	public boolean addSubCategory(long catId, long subcatId);
-	public boolean deleteSubCategory(long catId, long subcatId);
-	
+	public void updateAdvertisement(long id, String title, String description,
+			String image, String address, String phone, String geoPosition)
+			throws SQLException;
+
+	public void deleteAdvertisement(long id) throws SQLException;
+
+	/* category */
+	public void addCategory(long id, String name) throws SQLException;
+
+	public void updateCategory(long id, String name) throws SQLException;
+
+	public void deleteCategory(long id) throws SQLException;
+
+	/* sub category */
+	public void addSubCategory(long catId, long subcatId) throws SQLException;
+
+	public void deleteSubCategory(long catId, long subcatId)
+			throws SQLException;
+
 	/* advertisement have category */
-	public boolean addAdvHaveCategory(long advId, long catId);
-	public boolean deleteAdvHaveCategory(long advId, long catId);
-	
-	
+	public void addAdvHaveCategory(long advId, long catId) throws SQLException;
+
+	public void deleteAdvHaveCategory(long advId, long catId)
+			throws SQLException;
+
+	/* database transaction */
+	public void beginTransaction();
+
+	public void commit();
+
+	public void endTransaction();
+
 }
