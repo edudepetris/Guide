@@ -11,21 +11,34 @@ import org.json.JSONObject;
  */
 public class GuideJsonParser {
 
+	// key of the JSON objects the Rio Cuarto 2.0
+	private final String CATEGORY_INSERT = "category_insert";
+	private final String CATEGORY_DELETE = "category_delete";
+	private final String CATEGORY_UPDATE = "category_update";
+
+	private JSONObject guideJson;
+
 	public GuideJsonParser(byte[] byteArray) {
+
+		try {
+			guideJson = new JSONObject(new String(byteArray));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 
 	// get JSONArray of the Category
 
 	public JSONArray getJSONArrayCategoryAdd() {
-		return null;
+		return getJsonArray(CATEGORY_INSERT);
 	}
 
 	public JSONArray getJSONArrayCategoryDelete() {
-		return null;
+		return getJsonArray(CATEGORY_DELETE);
 	}
 
 	public JSONArray getJSONArrayCategoryUpdate() {
-		return null;
+		return getJsonArray(CATEGORY_UPDATE);
 	}
 
 	// get JSONArray of the SubCategory
@@ -67,7 +80,12 @@ public class GuideJsonParser {
 	// que indica que
 	// JSONArray va retornar
 	private JSONArray getJsonArray(String string) {
-		return null;
+		JSONArray jsonArray = null;
+		try {
+			jsonArray = guideJson.getJSONArray(string);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return jsonArray;
 	}
-
 }
