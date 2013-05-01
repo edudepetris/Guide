@@ -27,16 +27,21 @@ public class GuideUpdateService extends IntentService {
 
 	// GuideJsonParser guideJsonParser = new GuideJsonParser(byteArray);
 
-	// IwriteOnGuide iwriteOnGuide = new ImplementWriteOnGuide();
-
-	// CommitData commitData = new CommitData(iwriteOnGuide);
-	//
-	// JSONArray categoryArrayAdd =
-	// guideJsonParser.getJSONArrayCategoryInsert();
-	// commitData.addCategoryInsert(categoryArray);
-
-	// JSONArray categoryArrayDelete =
-	// guideJsonParser.getJSONArrayCategoryDelete();
-	// commitData.addCategoryInsert(categoryArrayDelete);
-
+	// IWriterOnGuide dbWriter = GuideDataBase.getInstance(this);
+	// CommitData commitData = new CommitData(dbWriter);
+	// JsonArray jsonArray;
+	// dbWriter.beginTransaction();
+	// try{
+	// // all the operations on db : delete, update y insert
+	// jsonArray = guideJsonParser.getCategoryAdd();
+	// commitData.categoryAdd(jsonArray);
+	// ..
+	// ...
+	// db.commit();
+	// } catch (SQLException e) {
+	// Log.i("IWriteOnGUide", "contained exception");
+	// } finally {
+	// db.endTransaction();
+	// }
+	
 }

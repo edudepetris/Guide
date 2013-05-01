@@ -18,6 +18,9 @@ public class GuideJsonParser {
 
 	private JSONObject guideJson;
 
+	/** the constructor method
+	 * @param byteArray =  is a array to byte, contain the data obtained the  web service
+	 */
 	public GuideJsonParser(byte[] byteArray) {
 
 		try {
