@@ -25,7 +25,6 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
 	}
 
 	// para poder poder porbar y lanzar la actualizacion solo se debe insertar
@@ -40,6 +39,7 @@ public class MainActivity extends Activity {
 
 	public void showToast(String msg) {
 		Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
+
 	}
 
 	@Override
