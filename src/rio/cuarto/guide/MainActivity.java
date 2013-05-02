@@ -11,21 +11,24 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		
-//		IReadDataOfGuideDataBase db = GuideDataBase.getInstance(this);
-//		SQLiteCursor cursor = (CategoryCursor) db.getCategory();
-//		
-//		for (int i = 0; i < cursor.getCount(); i++) {
-//			cursor.moveToPosition(i);
-//			Log.i("Cursor Category",  " id : " + ((CategoryCursor) cursor).getColId()+" , name:" + ((CategoryCursor) cursor).getColName());
-//		}
-//		
-//		cursor = db.getAdvertisement(1);
-//		for (int i = 0; i < cursor.getCount(); i++) {
-//			cursor.moveToPosition(i);
-//			Log.i("Cursor Advertisement",  " id : " + ((AdvertisementCursor) cursor).getColId()+" , title:" + ((AdvertisementCursor) cursor).getColTitle());
-//		}
-		
+		// IReadDataOfGuideDataBase db = GuideDataBase.getInstance(this);
+		// SQLiteCursor cursor = (CategoryCursor) db.getCategory();
+		//
+		// for (int i = 0; i < cursor.getCount(); i++) {
+		// cursor.moveToPosition(i);
+		// Log.i("Cursor Category", " id : " + ((CategoryCursor)
+		// cursor).getColId()+" , name:" + ((CategoryCursor)
+		// cursor).getColName());
+		// }
+		//
+		// cursor = db.getAdvertisement(1);
+		// for (int i = 0; i < cursor.getCount(); i++) {
+		// cursor.moveToPosition(i);
+		// Log.i("Cursor Advertisement", " id : " + ((AdvertisementCursor)
+		// cursor).getColId()+" , title:" + ((AdvertisementCursor)
+		// cursor).getColTitle());
+		// }
+
 	}
 
 	@Override
