@@ -18,7 +18,20 @@
 	} finally {
      		db.endTransaction();
 	}
-
+	
+ *	
+ *	example of use: In class that extends to Activity or FragmentActivity.  
+ 	IReadDataOfGuideDataBase db = new GuideDataBase(context);
+    SqliteCursor cursor = (AdvertisementCursor) db.getAdvertisement(id_category);
+  	...
+  	..
+  	for (int i = 0 ; i < cursor.getCounr() ; i++){
+  		cursor.moveToPosition(i); 
+ 		doSomething..
+  	}
+ 	...
+ 	..
+	
  */
 package rio.cuarto.database;
 
@@ -35,7 +48,7 @@ import android.util.Log;
  * @author edu
  * 
  */
-public class GuideDataBase extends SQLiteOpenHelper implements IWriteOnGuide {
+public class GuideDataBase extends SQLiteOpenHelper implements IWriteOnGuide,IReadDataOfGuideDataBase {
 
 	private static final int DATABASE_VERSION = 1;
 
@@ -82,6 +95,42 @@ public class GuideDataBase extends SQLiteOpenHelper implements IWriteOnGuide {
 			throw new Error("Unable to update database");
 		}
 	}
+
+	
+	/***********************************************************
+	 * Implementation of the interface IReadDataOfGuideDataBase*
+	 ***********************************************************/
+
+	/* 
+	 * @see rio.cuarto.database.IReadDataOfGuideDataBase#getAdvertisement(long)
+	 */
+	public AdvertisementCursor getAdvertisement(long category) {
+		String sql = AdvertisementCursor.QUERY + category + ") ORDER BY title";
+		SQLiteDatabase d = getReadableDatabase();
+		AdvertisementCursor c = (AdvertisementCursor) d.rawQueryWithFactory(
+				new AdvertisementCursor.Factory(), sql,
+				null, null);
+		c.moveToFirst();
+		return c;
+	}
+
+	/* 
+	 * @see rio.cuarto.database.IReadDataOfGuideDataBase#getCategory()
+	 */
+	public CategoryCursor getCategory(){
+		String sql = CategoryCursor.QUERY;
+		SQLiteDatabase d = getReadableDatabase();
+		CategoryCursor c = (CategoryCursor) d.rawQueryWithFactory(
+				new CategoryCursor.Factory(), sql,
+				null, null);
+		c.moveToFirst();
+		return c;
+	}
+	
+
+	/*******************************************************
+	 * Implementation of the interface IWriteOnGuide       *
+	 *******************************************************/
 
 	/*
 	 * @see rio.cuarto.database.IWriteOnGuide#addAdvertisement(long,
