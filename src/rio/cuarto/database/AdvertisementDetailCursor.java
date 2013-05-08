@@ -13,17 +13,15 @@ import android.database.sqlite.SQLiteQuery;
  * Provides self-contained query-specific cursor for Advertisement. The query
  * and all Accessor methods are in the class.
  */
-public class AdvertisementCursor extends SQLiteCursor {
+public class AdvertisementDetailCursor extends SQLiteCursor {
 	/** The query for this cursor */
 	public static final String QUERY = "SELECT "
-			+ "id_adv as _id,title,address,image"
-			+ "FROM advertisement "
-			+ "WHERE id_adv IN "
-			+ " (SELECT id_adv_have FROM adv_have_category WHERE id_category_have = ";
+			+ "id_adv as _id,title,description,address,phone,image,geo_position "
+			+ "FROM advertisement " + "WHERE id_adv = ";
 
 	/** Cursor constructor */
 	@SuppressWarnings("deprecation")
-	AdvertisementCursor(SQLiteDatabase db, SQLiteCursorDriver driver,
+	AdvertisementDetailCursor(SQLiteDatabase db, SQLiteCursorDriver driver,
 			String editTable, SQLiteQuery query) {
 		super(db, driver, editTable, query);
 	}
@@ -33,7 +31,7 @@ public class AdvertisementCursor extends SQLiteCursor {
 		@Override
 		public Cursor newCursor(SQLiteDatabase db, SQLiteCursorDriver driver,
 				String editTable, SQLiteQuery query) {
-			return new AdvertisementCursor(db, driver, editTable, query);
+			return new AdvertisementDetailCursor(db, driver, editTable, query);
 		}
 	}
 
@@ -50,8 +48,20 @@ public class AdvertisementCursor extends SQLiteCursor {
 		return getString(getColumnIndexOrThrow("address"));
 	}
 
+	public String getColDescription() {
+		return getString(getColumnIndexOrThrow("description"));
+	}
+
+	public String getColPhone() {
+		return getString(getColumnIndexOrThrow("phone"));
+	}
+
 	public String getColImage() {
 		return getString(getColumnIndexOrThrow("image"));
+	}
+
+	public String getColGeoPosition() {
+		return getString(getColumnIndexOrThrow("geo_position"));
 	}
 
 }

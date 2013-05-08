@@ -48,7 +48,8 @@ import android.util.Log;
  * @author edu
  * 
  */
-public class GuideDataBase extends SQLiteOpenHelper implements IWriteOnGuide,IReadDataOfGuideDataBase {
+public class GuideDataBase extends SQLiteOpenHelper implements IWriteOnGuide,
+		IReadDataOfGuideDataBase {
 
 	private static final int DATABASE_VERSION = 1;
 
@@ -96,40 +97,49 @@ public class GuideDataBase extends SQLiteOpenHelper implements IWriteOnGuide,IRe
 		}
 	}
 
-	
 	/***********************************************************
 	 * Implementation of the interface IReadDataOfGuideDataBase*
 	 ***********************************************************/
 
-	/* 
+	/*
 	 * @see rio.cuarto.database.IReadDataOfGuideDataBase#getAdvertisement(long)
 	 */
-	public AdvertisementCursor getAdvertisement(long category) {
+	public AdvertisementDetailCursor getAdvertisement(long id) {
+		String sql = AdvertisementDetailCursor.QUERY + id + ")";
+		SQLiteDatabase d = getReadableDatabase();
+		AdvertisementDetailCursor c = (AdvertisementDetailCursor) d
+				.rawQueryWithFactory(new AdvertisementCursor.Factory(), sql,
+						null, null);
+		c.moveToFirst();
+		return c;
+	}
+
+	/*
+	 * @see rio.cuarto.database.IReadDataOfGuideDataBase#getAdvertisement(long)
+	 */
+	public AdvertisementCursor getAdvertisements(long category) {
 		String sql = AdvertisementCursor.QUERY + category + ") ORDER BY title";
 		SQLiteDatabase d = getReadableDatabase();
 		AdvertisementCursor c = (AdvertisementCursor) d.rawQueryWithFactory(
-				new AdvertisementCursor.Factory(), sql,
-				null, null);
+				new AdvertisementCursor.Factory(), sql, null, null);
 		c.moveToFirst();
 		return c;
 	}
 
-	/* 
+	/*
 	 * @see rio.cuarto.database.IReadDataOfGuideDataBase#getCategory()
 	 */
-	public CategoryCursor getCategory(){
+	public CategoryCursor getCategories() {
 		String sql = CategoryCursor.QUERY;
 		SQLiteDatabase d = getReadableDatabase();
 		CategoryCursor c = (CategoryCursor) d.rawQueryWithFactory(
-				new CategoryCursor.Factory(), sql,
-				null, null);
+				new CategoryCursor.Factory(), sql, null, null);
 		c.moveToFirst();
 		return c;
 	}
-	
 
 	/*******************************************************
-	 * Implementation of the interface IWriteOnGuide       *
+	 * Implementation of the interface IWriteOnGuide *
 	 *******************************************************/
 
 	/*
