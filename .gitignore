@@ -12,6 +12,9 @@
 bin/
 gen/
 
+src/rio/cuarto/guide/MainActivity.java
+res/layout/activity_main.xml
+
 # Local configuration file (sdk path, etc)
 local.properties
 

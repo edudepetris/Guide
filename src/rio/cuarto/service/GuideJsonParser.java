@@ -5,9 +5,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * la clase GuideJsonParser proporciona arreglo de datos (JSONArray) especificos
- * ejemplo : getJSONArrayCategoryAdd() retorna todas las categorias a guardar
- * 
+ * the GuideJsonParser class provides data array (JSONArray) specific,
+ * example getJSONArrayCategoryAdd () returns all categories to save
  */
 public class GuideJsonParser {
 
@@ -15,14 +14,24 @@ public class GuideJsonParser {
 	private final String CATEGORY_INSERT = "category_insert";
 	private final String CATEGORY_DELETE = "category_delete";
 	private final String CATEGORY_UPDATE = "category_update";
+	private final String SUB_CATEGORY_INSERT = "subcategory_insert";
+	private final String SUB_CATEGORY_DELETE = "subcategory_delete";
+	private final String ADVERTISEMENT_INSERT = "advertisement_insert";
+	private final String ADVERTISEMENT_DELETE = "advertisement_delete";
+	private final String ADVERTISEMENT_UPDATE = "advertisement_update";
+	private final String HAVE_INSERT = "have_insert";
+	private final String HAVE_DELETE = "have_delete";
 
 	private JSONObject guideJson;
 
-	/** the constructor method
-	 * @param byteArray =  is a array to byte, contain the data obtained the  web service
+	/**
+	 * the constructor method
+	 * 
+	 * @param byteArray
+	 *            = is a array to byte, contain the data obtained the web
+	 *            service
 	 */
 	public GuideJsonParser(byte[] byteArray) {
-
 		try {
 			guideJson = new JSONObject(new String(byteArray));
 		} catch (JSONException e) {
@@ -32,56 +41,58 @@ public class GuideJsonParser {
 
 	// get JSONArray of the Category
 
-	public JSONArray getJSONArrayCategoryAdd() {
+	public JSONArray getCategoryAdd() {
 		return getJsonArray(CATEGORY_INSERT);
 	}
 
-	public JSONArray getJSONArrayCategoryDelete() {
+	public JSONArray getCategoryDelete() {
 		return getJsonArray(CATEGORY_DELETE);
 	}
 
-	public JSONArray getJSONArrayCategoryUpdate() {
+	public JSONArray getCategoryUpdate() {
 		return getJsonArray(CATEGORY_UPDATE);
 	}
 
 	// get JSONArray of the SubCategory
 
-	public JSONArray getJSONArraySubCategoryAdd() {
-		return null;
+	public JSONArray getSubCategoryAdd() {
+		return getJsonArray(SUB_CATEGORY_INSERT);
 	}
 
-	public JSONArray getJSONArraySubCategoryDelete() {
-		return null;
+	public JSONArray getSubCategoryDelete() {
+		return getJsonArray(SUB_CATEGORY_DELETE);
 	}
 
 	// get JSONArry of the Advertisement
 
-	public JSONArray getJSONArrayAdvertisementAdd() {
-		return null;
+	public JSONArray getAdvertisementAdd() {
+		return getJsonArray(ADVERTISEMENT_INSERT);
 	}
 
-	public JSONArray getJSONArrayAdvertisementDelete() {
-		return null;
+	public JSONArray getAdvertisementDelete() {
+		return getJsonArray(ADVERTISEMENT_DELETE);
 	}
 
-	public JSONArray getJSONArrayAdvertisementUpdate() {
-		return null;
+	public JSONArray getAdvertisementUpdate() {
+		return getJsonArray(ADVERTISEMENT_UPDATE);
 	}
 
 	// get JSONArray of the Have
 
-	public JSONArray getJSONArrayHaveAdd() {
-		return null;
+	public JSONArray getHaveAdd() {
+		return getJsonArray(HAVE_INSERT);
 	}
 
-	public JSONArray getJSONArrayHaveDelete() {
-		return null;
+	public JSONArray getHaveDelete() {
+		return getJsonArray(HAVE_DELETE);
 	}
 
-	// metodo usado por los getJsonArray
-	// toma un string que es la category o advertisement o have o subcategory
-	// que indica que
-	// JSONArray va retornar
+	/*
+	 * @param string = is a specified string to determine what kind of JSONArray
+	 * will return, such a category,advertisement or subcategory
+	 * 
+	 * @return JSONArray
+	 */
 	private JSONArray getJsonArray(String string) {
 		JSONArray jsonArray = null;
 		try {
