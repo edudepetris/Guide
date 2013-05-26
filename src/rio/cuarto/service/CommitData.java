@@ -125,7 +125,6 @@ public class CommitData {
 	}
 
 	public void advertisementDelete(JSONArray guideJsonArray) {
-		Log.i(LOG, "advertisementDelete antes " + guideJsonArray.length());
 		if (!isEmptyJsonArray(guideJsonArray)) {
 			String[] attr = { ADVERTISEMENT_DELETE_ID };
 			saveDataBase(guideJsonArray, attr, ADVERTISEMENT_DELETE);

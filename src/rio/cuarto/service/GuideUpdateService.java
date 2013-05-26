@@ -3,19 +3,17 @@
  */
 package rio.cuarto.service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import org.json.JSONArray;
 
 import rio.cuarto.database.GuideDataBase;
 import rio.cuarto.database.IWriteOnGuide;
+import rio.cuarto.guide.R;
 import rio.cuarto.utilities.Constants;
+import rio.cuarto.utilities.ServiceUtilities;
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.SQLException;
 import android.util.Log;
 
@@ -25,10 +23,8 @@ import android.util.Log;
  */
 public class GuideUpdateService extends IntentService {
 
-	private final String MY_URL = "http://damp-reef-9737.herokuapp.com/update/1";
-    private BroadcastNotifier mBroadcaster = new BroadcastNotifier(this);
+	private BroadcastNotifier mBroadcaster = new BroadcastNotifier(this);
 
-	
 	public GuideUpdateService() {
 		super("GuideUpdateService");
 	}
@@ -36,8 +32,11 @@ public class GuideUpdateService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent arg0) {
 
-		// ********ejemplo de iteracion para guardar datos en la base de datos
-		byte[] byteArray = getInputStream();
+		// the version of me database in phone.
+		int version = arg0.getIntExtra(Constants.VERSION_DB, 1);
+
+		// connection to server and get the data
+		byte[] byteArray = ServiceUtilities.getDataIS(version, mBroadcaster);
 
 		GuideJsonParser jParser = new GuideJsonParser(byteArray);
 		IWriteOnGuide db = GuideDataBase.getInstance(this);
@@ -46,8 +45,9 @@ public class GuideUpdateService extends IntentService {
 
 		// start transaction
 		db.beginTransaction();
-        mBroadcaster.broadcastIntentWithState(Constants.STATE_BEGIN_TRANSACTION);
-		
+		mBroadcaster
+				.broadcastIntentWithState(Constants.STATE_BEGIN_TRANSACTION);
+
 		try {
 			// all the operations on db : delete, update y insert
 
@@ -86,49 +86,28 @@ public class GuideUpdateService extends IntentService {
 			commitData.AdvHaveCategoryDelete(jArray);
 
 			db.commit();
-			mBroadcaster.broadcastIntentWithState(Constants.STATE_END_TRANSACTION);
+			// set to version of database
+			saveVersionDB(5);
+			mBroadcaster
+					.broadcastIntentWithState(Constants.STATE_END_TRANSACTION);
 		} catch (SQLException e) {
 			Log.i("IWriteOnGUide", "contained exception");
-	        mBroadcaster.broadcastIntentWithState(Constants.STATE_FAIL_TRANSACTION);
+			mBroadcaster
+					.broadcastIntentWithState(Constants.STATE_FAIL_TRANSACTION);
 		} finally {
 			db.endTransaction();
 		}
 	}
 
-	// provisorio
-	public byte[] getInputStream() {
-		String url = MY_URL;
-		byte[] data = null;
-		InputStream linkinStream = null;
-		ByteArrayOutputStream bArrayOutputStream = null;
-		HttpURLConnection linkConnection = null;
-		try {
-			URL linkurl = new URL(url);
-			linkConnection = (HttpURLConnection) linkurl.openConnection();
-			int responseCode = linkConnection.getResponseCode();
-			if (responseCode == HttpURLConnection.HTTP_OK) {
-				linkinStream = linkConnection.getInputStream();
-				bArrayOutputStream = new ByteArrayOutputStream();
-				int j = 0;
-				try {
-					while ((j = linkinStream.read()) != -1) {
-						bArrayOutputStream.write(j);
-					}
-					linkinStream.close();
-					data = bArrayOutputStream.toByteArray();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		finally {
-			if (linkConnection != null) {
-				linkConnection.disconnect();
-			}
-		}
-		return data;
+	/*
+	 * @param version of database that get of service and stored in phone 
+	 */
+	private void saveVersionDB(int version) {
+		SharedPreferences sP = getApplicationContext().getSharedPreferences(
+				Constants.VERSION_DB_FILE, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sP.edit();
+		editor.putInt(Constants.VERSION_DB, version);
+		editor.commit();
 	}
+
 }
